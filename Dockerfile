@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM golang:1.26 AS builder
+FROM golang:1.27 AS builder
 
 ENV GO111MODULE=on \
   CGO_ENABLED=0 \
@@ -34,9 +34,12 @@ RUN apk --no-cache upgrade && \
     apk --no-cache add \
       ca-certificates \
       "curl>=8.22.0-r0" \
+      "nghttp2>=1.70.0-r0" \
+      "nghttp2-libs>=1.70.0-r0" \
       "openssl>=3.5.8-r0" \
       "libcrypto3>=3.5.8-r0" \
-      "libssl3>=3.5.8-r0" && \
+      "libssl3>=3.5.8-r0" \
+      "zlib>=1.3.2-r1" && \
     update-ca-certificates
 
 COPY --from=builder /src/build/linux_amd64/oauth2l /bin/oauth2l
